@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>روضة مهارات الغد</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+emailjs.init("J1kiJoSg6Xo5P6NqO");
+})();
+</script>
+
+<style>
+body{
+    font-family:'Cairo',sans-serif;
+    direction:rtl;
+    margin:0;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+}
+
+.container{
+    max-width:600px;
+    margin:40px auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:10px;
+    background:green;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.status{
+    text-align:center;
+    margin-top:10px;
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌟 تسجيل طفل</h1>
+
+<form id="form">
+
+<input type="text" id="childName" placeholder="اسم الطفل" required>
+<input type="date" id="birthDate" required>
+<input type="number" id="age" placeholder="العمر" required>
+
+<select id="gender" required>
+<option value="">الجنس</option>
+<option value="ذكر">ذكر</option>
+<option value="أنثى">أنثى</option>
+</select>
+
+<input type="text" id="parentName" placeholder="اسم الولي" required>
+<input type="text" id="phone" placeholder="رقم الهاتف" required>
+
+<textarea id="notes" placeholder="ملاحظات"></textarea>
+
+<button type="submit">📩 تسجيل</button>
+
+<div class="status" id="status"></div>
+
+</form>
+
+</div>
+
+<script>
+document.getElementById("form").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    let status = document.getElementById("status");
+    status.innerHTML = "⏳ جاري الإرسال...";
+
+    let data = {
+        childName: document.getElementById("childName").value,
+        birthDate: document.getElementById("birthDate").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        parentName: document.getElementById("parentName").value,
+        phone: document.getElementById("phone").value,
+        notes: document.getElementById("notes").value
+    };
+
+    emailjs.send(
+        "service_5fqriuv",
+        "template_prspd7b",
+        data
+    )
+    .then(function(){
+        status.innerHTML = "✅ تم التسجيل بنجاح وتم الإرسال للإيميل";
+        document.getElementById("form").reset();
+    })
+    .catch(function(error){
+        console.log("EmailJS Error:", error);
+        status.innerHTML = "❌ خطأ: " + (error.text || error.message || "حدث خطأ في الإرسال");
+    });
+});
+</script>
+
+</body>
+</html>
